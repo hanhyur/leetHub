@@ -14,24 +14,33 @@
  * }
  */
 class Solution {
-    public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> list = new ArrayList<Integer>();
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-        TreeNode cur = root;
-
-        while (cur != null || !stack.empty()) {
-            while (cur != null) {
-                stack.add(cur);
-                cur = cur.left;
+    static List<Integer> list;
+    
+    // 중위 순회 : left -> root -> right 순으로 탐색
+    public void inOrder(TreeNode node) {
+        // node 값이 존재할 때
+        if (node != null) {
+            
+            // left 탐색
+            if (node.left != null) {
+                inOrder(node.left);
             }
             
-            cur = stack.pop();
+            // root 값 저장
+            list.add(node.val);
             
-            list.add(cur.val);
-            
-            cur = cur.right;
+            // right 탐색
+            if (node.right != null) {
+                inOrder(node.right);
+            }
         }
-
+    }
+    
+    public List<Integer> inorderTraversal(TreeNode root) {
+        list = new ArrayList<Integer>();
+        
+        inOrder(root);
+        
         return list;
     }
 }
