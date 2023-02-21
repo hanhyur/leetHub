@@ -4,6 +4,11 @@ class Solution {
         // left, right는 인덱스
         int left = 0, right = nums.length - 1;
         
+        // size가 1이거나 rotate가 일어나지 않은 경우
+        if (nums.length == 1 || nums[0] < nums[nums.length - 1]) {
+            return nums[0];
+        }
+        
         while (left < right) {
             int mid = left + (right - left) / 2;
             
