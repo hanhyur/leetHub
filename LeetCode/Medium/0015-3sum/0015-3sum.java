@@ -1,34 +1,57 @@
+import java.util.AbstractList;
+
 class Solution {
+    private List<List<Integer>> ans;
+    
     // 더해서 0이 되는 부분배열을 모두 구한다.
     public List<List<Integer>> threeSum(int[] nums) {
-        int target = 0;
-        
-        Arrays.sort(nums);
-        
-        Set<List<Integer>> s = new HashSet<>();
-        List<List<Integer>> answer = new ArrayList<>();
-        
-        for (int i = 0; i < nums.length; i++){
-            int j = i + 1;
-            int k = nums.length - 1;
-        
-            while (j < k) {
-                int sum = nums[i] + nums[j] + nums[k];
+        return new AbstractList<List<Integer>>() {
             
-                if (sum == target) {
-                    s.add(Arrays.asList(nums[i], nums[j], nums[k]));
-                    j++;
-                    k--;
-                } else if (sum < target) {
-                    j++;
-                } else {
-                    k--;
-                }
+            public List<Integer> get(int index) {
+                init();
+                
+                return ans.get(index);
             }
-        }
-        
-        answer.addAll(s);
-        
-        return answer;
+            
+            public int size() {
+                init();
+                
+                return ans.size();
+            }
+            
+            private void init() {
+                if (ans != null)  {
+                    return;
+                }
+                
+                Arrays.sort(nums);
+                
+                int left, right;
+                int sum;
+                Set<List<Integer>> temp = new HashSet<>();
+                
+                for (int i = 0; i < nums.length - 2; i++) {
+                    left = i + 1;
+                    right = nums.length - 1;
+                    
+                    while (left < right) {
+                        sum = nums[i] + nums[left] + nums[right];
+                        
+                        if (sum == 0) {
+                            temp.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                            
+                            left++; 
+                            right--;
+                        } else if (sum < 0) {
+                            left++;
+                        } else {
+                            right--;
+                        }
+                    }
+                }
+                
+                ans = new ArrayList<List<Integer>>(temp);
+            }
+        };
     }
 }
