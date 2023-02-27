@@ -2,18 +2,20 @@ class Solution {
     // amount를 만드는데 필요한 coins의 갯수를 구한다
     // 만들 수 없으면 -1
     public int coinChange(int[] coins, int amount) {
-        int[] dp = new int[amount + 1];
-        
-        for (int i = 1; i < dp.length; i++) {
-            dp[i] = dp.length;
-        
-            for (int j = 0; j < coins.length; j++) {
-                if (i >= coins[j]) {
-                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
-                }
-            }
+        if (coins == null || coins.length == 0 || amount <= 0) {
+            return 0;
         }
         
-        return dp[amount] == dp.length ? -1 : dp[amount];
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        
+        for (int coin : coins) {
+            for (int i = coin; i <= amount; i++) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+
+        return dp[amount] <= amount ? dp[amount] : -1;
     }
 }
